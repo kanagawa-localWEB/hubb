@@ -1,0 +1,36 @@
+<html lang="ja">
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  </head>
+  <body>
+    <py-script>
+      from bs4 import BeautifulSoup
+      import urllib.request as req
+      
+      url = "https://finance.yahoo.co.jp/"
+      
+      # urlopen()でデータを取得
+      res = req.urlopen(url)
+      
+      # BeautifulSoup()で解析
+      soup = BeautifulSoup(res, 'html.parser')
+      
+      # 任意のデータを抽出
+      ol_list = soup.find_all("ol", class_="_1EhLibcK")
+      
+      for ol in ol_list:
+          li_list = ol.find_all("li", class_="_2ljd8LLu")
+          for li in li_list:
+              ranking = li.find("span", class_="kiKwcEvq").get_text()
+              if ranking == "1":
+                  text = li.find("span", class_="_3u11DF4X _3Ib3sCcm").get_text()
+                  print("text =", text)
+                  break
+          else:
+              continue
+          break
+    </py-script>
+  </body>
+</html>
